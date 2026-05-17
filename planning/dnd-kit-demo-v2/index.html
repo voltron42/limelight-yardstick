@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Drag and Drop Kit Demo - jQuery UI with React">
+    <meta name="theme-color" content="#1a1a1a">
+    
+    <title>DnD Kit Demo v2 - jQuery UI</title>
+    
+    <!-- Bootstrap 5 CSS from CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    
+    <!-- jQuery UI CSS -->
+    <link rel="stylesheet" href="https://voltron42.github.io/archive/jquery-ui-drag-and-drop/jquery-ui.min.css"/>
+    <link rel="stylesheet" href="https://voltron42.github.io/archive/jquery-ui-drag-and-drop/jquery-ui.structure.min.css"/>
+    <link rel="stylesheet" href="https://voltron42.github.io/archive/jquery-ui-drag-and-drop/jquery-ui.theme.min.css"/>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Open+Sans" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/d550ee8263.js" crossorigin="anonymous"></script>
+    
+    <!-- Local styles (custom CSS) -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- importNamespace - Module system from gizmo-atheneum -->
+    <script src="https://gizmo-atheneum.github.io/structure/importnamespace/script.js"></script>
+    
+    <!-- React and React-DOM from CDN (UMD builds) -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    
+    <!-- Babel Standalone for JSX transpilation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://voltron42.github.io/archive/jquery-ui-drag-and-drop/jquery-ui.min.js"></script>
+    <script src="https://voltron42.github.io/archive/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+    
+    <!-- LOCAL NAMESPACE MODULES - Load in alphabetical order for readability -->
+    <!-- importNamespace automatically handles dependency resolution -->
+    
+    <!-- Component namespaces (alphabetical) -->
+    <script type="text/babel" src="scripts/components/Header.js"></script>
+    <script type="text/babel" src="scripts/components/TaskBoard.js"></script>
+    
+    <!-- Utility namespaces (alphabetical) -->
+    <script type="text/babel" src="scripts/utils/dragDropHelper.js"></script>
+    
+    <!-- Main app component (imports all namespaces) -->
+    <script type="text/babel" src="scripts/main.js"></script>
+    
+    <!-- INITIALIZATION SCRIPT - Runs after all namespace definitions loaded -->
+    <script type="text/babel">
+        (function() {
+            try {
+                // Import main app component
+                const Main = importNamespace("dndapp.Main");
+                
+                // Render to root when DOM is ready
+                ReactDOM.createRoot(document.getElementById("app-root")).render(<Main />);
+                
+                // Check for unused namespaces (development debugging)
+                const unused = listUnusedNamespaces();
+                if (unused.length > 0) {
+                    console.warn("Unused namespaces:", unused);
+                }
+            } catch (error) {
+                console.error("Failed to initialize app:", error);
+                document.getElementById("app-root").innerHTML = 
+                    '<div class="alert alert-danger mt-5">' +
+                    '<h2>Error Loading Application</h2>' +
+                    '<p>' + error.message + '</p>' +
+                    '<pre>' + error.stack + '</pre>' +
+                    '</div>';
+            }
+        })();
+    </script>
+</head>
+<body class="bg-dark text-light">
+    <!-- React will render the app here -->
+    <div id="app-root" class="container"></div>
+</body>
+</html>

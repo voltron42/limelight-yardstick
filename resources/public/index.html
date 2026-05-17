@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover movies and people">
+    <meta name="theme-color" content="#1a1a1a">
+    
+    <title>Limelight Yardstick</title>
+    
+    <!-- Bootstrap 5 CSS from CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/d550ee8263.js" crossorigin="anonymous"></script>
+    
+    <!-- importNamespace - Module system from gizmo-atheneum -->
+    <script src="https://gizmo-atheneum.github.io/structure/importnamespace/script.js"></script>
+    
+    <!-- React and React-DOM from CDN (UMD builds) -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    
+    <!-- Babel Standalone for JSX transpilation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Local styles (custom CSS) -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- LOCAL NAMESPACE MODULES - Load in dependency order -->
+    <!-- Utility namespaces -->
+    <script type="text/babel" src="scripts/utils/apiService.js"></script>
+    
+    <!-- Main app component -->
+    <script type="text/babel" src="scripts/main.js"></script>
+    
+    <!-- INITIALIZATION SCRIPT - Runs after all namespace definitions loaded -->
+    <script type="text/babel">
+        (function() {
+            try {
+                // Import main app component
+                const Main = importNamespace("limelight.Main");
+                
+                // Render to root when DOM is ready
+                ReactDOM.createRoot(document.getElementById("app-root")).render(<Main />);
+                
+                console.log('Limelight Yardstick initialized successfully');
+            } catch (error) {
+                console.error("Failed to initialize app:", error);
+                document.getElementById("app-root").innerHTML = 
+                    '<div class="alert alert-danger mt-5 m-3">' +
+                    '<h2>Error Loading Application</h2>' +
+                    '<p>' + error.message + '</p>' +
+                    '<pre style="font-size: 0.8em; overflow: auto;">' + error.stack + '</pre>' +
+                    '</div>';
+            }
+        })();
+    </script>
+</head>
+<body class="bg-dark text-light">
+    <!-- React will render the app here -->
+    <div id="app-root"></div>
+
+</body>
+</html>

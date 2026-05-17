@@ -1,0 +1,15 @@
+Checking namespace limelight-yardstick.auth
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Reflection warning, limelight_yardstick/auth.clj:53:30 - call to method getBytes on java.lang.Object can't be resolved (no such method).
+Reflection warning, limelight_yardstick/auth.clj:52:21 - call to java.lang.String ctor can't be resolved.
+Checking namespace limelight-yardstick.core
+Reflection warning, ring/util/servlet.clj:88:24 - call to method write on javax.servlet.ServletOutputStream can't be resolved (argument types: unknown).
+Reflection warning, ring/adapter/jetty.clj:152:16 - call to org.eclipse.jetty.server.Server ctor can't be resolved.
+Reflection warning, ring/middleware/multipart_params/temp_file.clj:36:5 - call to static method sleep on java.lang.Thread can't be resolved (argument types: java.lang.Number).
+Reflection warning, instaparse/util.clj:5:3 - call to java.lang.RuntimeException ctor can't be resolved.
+Reflection warning, instaparse/util.clj:11:3 - call to java.lang.IllegalArgumentException ctor can't be resolved.
+Checking namespace limelight-yardstick.db
+Checking namespace limelight-yardstick.movie-service
+Checking namespace limelight-yardstick.tmdb-client

@@ -1,0 +1,66 @@
+/**
+ * Minimal Custom CSS
+ * Bootstrap 5 handles 95%+ of styling
+ */
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #0a0e27;
+  color: #e4e4e7;
+  padding: 2rem 1rem;
+}
+
+.task-board-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.board-column {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.droppable {
+  flex-grow: 1;
+  min-height: 300px;
+  padding: 0.5rem;
+  border: 2px dashed #555;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.droppable.drop-target {
+  border-color: #667eea;
+  background-color: rgba(102, 126, 234, 0.1);
+}
+
+.card {
+  cursor: grab;
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+.card.ui-draggable-dragging {
+  cursor: grabbing;
+  opacity: 0.7;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 200px;
+  color: #555;
+}
+
+.board-controls {
+  margin-top: auto;
+}
+

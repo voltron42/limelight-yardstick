@@ -1,0 +1,85 @@
+/**
+ * Limelight Yardstick - Minimal Custom Styles
+ * 
+ * Most styling is handled by Bootstrap 5. Custom CSS here is only for app-specific needs.
+ * Pattern: Bootstrap-first, minimal custom CSS (< 50 lines target)
+ */
+
+/* Scorecard Panels - Draggable Category Containers */
+.scorecard-panel {
+    background-color: #2c3e50;
+    color: white;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    cursor: move;
+    user-select: none;
+    transition: opacity 0.2s ease;
+}
+
+.scorecard-panel:hover {
+    opacity: 0.9;
+}
+
+.scorecard-panel-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.scorecard-drag-handle {
+    margin-right: 1rem;
+    font-size: 1.5rem;
+    color: #fff;
+    opacity: 0.7;
+    cursor: grab;
+}
+
+.scorecard-drag-handle:active {
+    cursor: grabbing;
+    opacity: 1;
+}
+
+.scorecard-options {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* Star Rating Display */
+.star-rating {
+    color: #f39c12;
+    font-size: 1.125rem;
+}
+
+/* Search Box with Icon */
+.search-box {
+    position: relative;
+}
+
+.search-box input {
+    padding-left: 2.5rem;
+    border-radius: 1.5rem;
+}
+
+.search-box .fa-search {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    pointer-events: none;
+}
+
+/* Empty State - For no data scenarios */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.empty-state-icon {
+    font-size: 3rem;
+    opacity: 0.5;
+}

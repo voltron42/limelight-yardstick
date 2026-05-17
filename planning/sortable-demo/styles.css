@@ -1,0 +1,19 @@
+/* jQuery UI Sortable states only */
+.category-panel.ui-sortable-helper {
+  opacity: 0.6 !important;
+  cursor: grabbing !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5) !important;
+  transition: none !important;
+  z-index: 1000 !important;
+}
+
+.category-panel.ui-sortable-placeholder {
+  visibility: visible !important;
+  opacity: 0.4 !important;
+  border-style: dashed !important;
+}
+
+.drag-handle {
+  cursor: grab;
+  user-select: none;
+}

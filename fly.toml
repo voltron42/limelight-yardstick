@@ -1,0 +1,26 @@
+# Fly.io configuration for limelight-yardstick
+app = "limelight-yardstick"
+primary_region = "iad"
+
+[http_service]
+internal_port = 8080
+force_https = true
+auto_stop_machines = 'stop'
+auto_start_machines = true
+min_machines_running = 0
+processes = ['app']
+
+# Health check configuration
+[http_service.checks]
+interval = "10s"
+timeout = "5s"
+grace_period = "5s"
+method = "GET"
+path = "/api/health"
+
+[[env]]
+variables = { LOG_LEVEL = "INFO" }
+
+# Auto deployment on git push (optional - requires GitHub Actions setup)
+# [build]
+# builder = "docker"

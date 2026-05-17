@@ -1,0 +1,28 @@
+/**
+ * Minimal Custom CSS
+ * Bootstrap 5.3.2 handles 95%+ of styling
+ */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.05em;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.scorecard-panel {
+  cursor: grab;
+  transition: all 0.2s ease;
+}
+
+.scorecard-panel.ui-draggable-dragging {
+  cursor: grabbing;
+  opacity: 0.8;
+}
+
+.droppable-scorecard-zone.drop-target {
+  border-color: #e94560;
+  background-color: rgba(233, 69, 96, 0.05);
+}
