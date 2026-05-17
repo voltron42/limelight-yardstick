@@ -68,7 +68,7 @@
   (GET "/api/user" req 
        (let [user (:user req)
              preferences (db/get-or-create-preferences! (:id user))]
-         (response {:user (select-keys user [:id :email :name :profile_picture])
+         (response {:user (select-keys user [:id :email])
                     :preferences preferences})))
   
   ;; User preferences

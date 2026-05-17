@@ -42,14 +42,14 @@
 ;; Initialize database tables
 (defn init-db! []
   (try
-    ;; Users table (auth)
-    (jdbc/execute! @ds [(queries :init-users-table)])
+    ;; User auth table (OAuth credentials)
+    (jdbc/execute! @ds [(queries :init-user-auth-table)])
     
-    ;; Sessions table (auth)
+    ;; Sessions table (active sessions)
     (jdbc/execute! @ds [(queries :init-sessions-table)])
     
-    ;; User preferences (profile customization and privacy)
-    (jdbc/execute! @ds [(queries :init-user-preferences-table)])
+    ;; Users table (user profiles)
+    (jdbc/execute! @ds [(queries :init-users-table)])
     
     ;; Ratings (user ratings for movies with taxonomic data)
     (jdbc/execute! @ds [(queries :init-ratings-table)])
@@ -83,13 +83,13 @@
 ;; User operations
 (defn upsert-user! [google-profile]
   (try
-    (let [{:keys [sub email name picture]} google-profile]
+    (let [{:keys [sub email]} google-profile]
       (if-let [existing (sql/query @ds [(queries :upsert-user-check-existing) sub])]
         (do
-          (jdbc/execute! @ds [(queries :upsert-user-update) name picture (java.time.Instant/now) sub])
+          (jdbc/execute! @ds [(queries :upsert-user-update) (java.time.Instant/now) sub])
           (:id (first existing)))
         (do
-          (sql/insert! @ds :users {:google_id sub :email email :name name :profile_picture picture})
+          (sql/insert! @ds :user_auth {:google_id sub :email email})
           (:id (first (sql/query @ds [(queries :upsert-user-check-existing) sub]))))))
     (catch Exception e
       (log/error "Failed to upsert user:" (.getMessage e))
@@ -103,25 +103,26 @@
       nil)))
 
 ;; User preferences operations
-(defn get-or-create-preferences! [user-id]
+(defn get-or-create-preferences! [user-auth-id]
   (try
-    (if-let [existing (first (sql/query @ds [(queries :get-preferences-existing) user-id]))]
+    (if-let [existing (first (sql/query @ds [(queries :get-preferences-existing) user-auth-id]))]
       existing
       (do
-        (jdbc/execute! @ds [(queries :create-preferences) user-id nil false])
-        (first (sql/query @ds [(queries :get-preferences-existing) user-id]))))
+        (jdbc/execute! @ds [(queries :create-preferences) user-auth-id nil nil false])
+        (first (sql/query @ds [(queries :get-preferences-existing) user-auth-id]))))
     (catch Exception e
       (log/error "Failed to get or create preferences:" (.getMessage e))
       nil)))
 
-(defn update-preferences! [user-id preferences]
+(defn update-preferences! [user-auth-id preferences]
   (try
     (jdbc/execute! @ds [(queries :update-preferences) 
                        (:custom_username preferences) 
+                       (:profile_picture preferences)
                        (:is_profile_public preferences)
                        (java.time.Instant/now)
-                       user-id])
-    (first (sql/query @ds [(queries :get-preferences-existing) user-id]))
+                       user-auth-id])
+    (first (sql/query @ds [(queries :get-preferences-existing) user-auth-id]))
     (catch Exception e
       (log/error "Failed to update preferences:" (.getMessage e))
       nil)))

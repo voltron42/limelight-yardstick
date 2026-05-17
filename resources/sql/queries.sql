@@ -1,10 +1,8 @@
--- init-users-table
-CREATE TABLE IF NOT EXISTS users (
+-- init-user-auth-table
+CREATE TABLE IF NOT EXISTS user_auth (
   id SERIAL PRIMARY KEY,
   google_id TEXT UNIQUE NOT NULL,
   email TEXT UNIQUE NOT NULL,
-  name TEXT,
-  profile_picture TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
@@ -13,18 +11,19 @@ CREATE TABLE IF NOT EXISTS users (
 -- init-sessions-table
 CREATE TABLE IF NOT EXISTS sessions (
   session_id TEXT PRIMARY KEY,
-  user_id INTEGER NOT NULL REFERENCES users(id),
+  user_auth_id INTEGER NOT NULL REFERENCES user_auth(id),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   expires_at TIMESTAMP NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+  FOREIGN KEY (user_auth_id) REFERENCES user_auth(id) ON DELETE CASCADE
 )
 
 
--- init-user-preferences-table
-CREATE TABLE IF NOT EXISTS user_preferences (
+-- init-users-table
+CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
-  user_id INTEGER UNIQUE NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  user_auth_id INTEGER UNIQUE NOT NULL REFERENCES user_auth(id) ON DELETE CASCADE,
   custom_username TEXT UNIQUE,
+  profile_picture TEXT,
   is_profile_public BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -95,31 +94,31 @@ FROM vocabulary ORDER BY category, level
 
 
 -- upsert-user-check-existing
-SELECT id FROM users WHERE google_id = ?
+SELECT id FROM user_auth WHERE google_id = ?
 
 
 -- upsert-user-update
-UPDATE users SET name = ?, profile_picture = ?, updated_at = ? WHERE google_id = ?
+UPDATE user_auth SET updated_at = ? WHERE google_id = ?
 
 
 -- upsert-user-insert
-INSERT INTO users (google_id, email, name, profile_picture) VALUES (?, ?, ?, ?)
+INSERT INTO user_auth (google_id, email) VALUES (?, ?)
 
 
 -- get-user-by-id
-SELECT id, email, name, profile_picture, created_at FROM users WHERE id = ?
+SELECT id, email, created_at FROM user_auth WHERE id = ?
 
 
 -- get-preferences-existing
-SELECT * FROM user_preferences WHERE user_id = ?
+SELECT * FROM users WHERE user_auth_id = ?
 
 
 -- create-preferences
-INSERT INTO user_preferences (user_id, custom_username, is_profile_public) VALUES (?, ?, ?)
+INSERT INTO users (user_auth_id, custom_username, profile_picture, is_profile_public) VALUES (?, ?, ?, ?)
 
 
 -- update-preferences
-UPDATE user_preferences SET custom_username = ?, is_profile_public = ?, updated_at = ? WHERE user_id = ?
+UPDATE users SET custom_username = ?, profile_picture = ?, is_profile_public = ?, updated_at = ? WHERE user_auth_id = ?
 
 
 -- get-rating-by-id
@@ -169,13 +168,13 @@ ORDER BY rt.order
 
 
 -- get-public-user-by-username
-SELECT u.id, u.name, u.profile_picture, up.custom_username 
-FROM users u JOIN user_preferences up ON u.id = up.user_id 
-WHERE up.custom_username = ? AND up.is_profile_public = TRUE
+SELECT u.id, u.custom_username, u.profile_picture 
+FROM users u 
+WHERE u.custom_username = ? AND u.is_profile_public = TRUE
 
   
 -- get-public-users
-SELECT u.id, u.name, u.profile_picture, up.custom_username 
-FROM users u JOIN user_preferences up ON u.id = up.user_id 
-WHERE up.is_profile_public = TRUE 
+SELECT u.id, u.custom_username, u.profile_picture 
+FROM users u 
+WHERE u.is_profile_public = TRUE 
 ORDER BY u.created_at DESC
