@@ -11,6 +11,7 @@ pom.xml.asc
 /.prepl-port
 .hgignore
 .hg/
+/.lsp
 
 # Environment variables (NEVER commit secrets!)
 .env
@@ -34,3 +35,4 @@ Thumbs.db
 .cpcache/
 *.log
 
+.lsp/.cache/db.transit.json

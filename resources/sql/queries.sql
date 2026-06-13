@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS rating_terms (
 
 
 -- count-vocabulary
-SELECT COUNT(*) as cnt FROM vocabulary
+SELECT COUNT(*) as vocabulary_count FROM vocabulary
 
 
 -- get-vocabulary

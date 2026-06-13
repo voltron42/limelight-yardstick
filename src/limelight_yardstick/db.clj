@@ -59,7 +59,7 @@
     
     ;; Seed vocabulary (only if empty)
     (let [count (-> (jdbc/execute-one! @ds [(queries :count-vocabulary)])
-                    :cnt)]
+                    :vocabulary_count)]
       (when (zero? count)
         (jdbc/execute! @ds [(queries :seed-vocabulary)])))
     
